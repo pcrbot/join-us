@@ -1,0 +1,16 @@
+name: invite
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  invite:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Invite user to organization
+        run: |
+          curl -iSL -X POST https://api.github.com/orgs/pcrbot/invitations \
+              -u pcrbot-bot:${{ secrets.PA_TOKEN }} \
+              -H "accept: application/vnd.github.v3+json" \
+              -d '{"invitee_id":${{ github.event.sender.id }},"role":"direct_member"}'
